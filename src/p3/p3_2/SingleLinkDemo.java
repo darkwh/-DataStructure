@@ -1,31 +1,32 @@
-package practice.p3_2;
+package p3.p3_2;
 
-public class DoubleLinkDemo {
+public class SingleLinkDemo {
 
     public static void main(String[] args) {
-        DoubleLink<Integer> table = new DoubleLink<>();
+        SingleLink<Integer> table = new SingleLink<>();
         table.add(1);
         table.add(2);
         table.add(3);
         table.add(4);
         System.out.println(table.toString());
-        table.swap(2, 1);
+        table.swap(0, 1);
         System.out.println(table.toString());
     }
 }
 
-class DoubleLink<E> {
+@SuppressWarnings("ALL")
+class SingleLink<E> {
 
     private Node<E> first;
     private Node<E> last;
     private int size;
 
-    DoubleLink() {
+    SingleLink() {
     }
 
     void add(E e) {
         Node<E> l = last;
-        Node<E> newNode = new Node<>(l, e, null);
+        Node<E> newNode = new Node<>(e, null);
         if (l == null)
             first = newNode;
         else
@@ -34,35 +35,29 @@ class DoubleLink<E> {
         size++;
     }
 
+    @SuppressWarnings("SameParameterValue")
     void swap(int x, int y) {
         checkInput(x, y);
-        Node<E> prev = node(x < y ? x : y);
-        Node<E> next = prev.next;
-        prev.next = next.next;
-        next.prev = prev.prev;
-        prev.prev = next;
-        next.next = prev;
-        if (next.prev != null)
-            next.prev.next = next;
-        else
-            first = next;
-        if (prev.next != null)
-            prev.next.prev = prev;
-        else
-            last = prev;
-    }
-
-    private Node<E> node(int index) {
-        if (index < (size >> 1)) {
-            Node<E> r = first;
-            for (int i = 0; i < index; i++)
-                r = r.next;
-            return r;
+        Node<E> prevPrev;
+        Node<E> prev;
+        Node<E> next;
+        if (x != 0 && y != 0) {
+            prevPrev = node(x < y ? x - 1 : y - 1);
+            prev = prevPrev.next;
+            next = prev.next;
         } else {
-            Node<E> r = last;
-            for (int i = size - 1; i > index; i--)
-                r = last.prev;
-            return r;
+            prevPrev = prev = first;
+            next = prev.next;
+        }
+        prev.next = next.next;
+        if (next.next == null) {
+            last = prev;
+        }
+        next.next = prev;
+        if (prevPrev == prev) {
+            first = next;
+        } else {
+            prevPrev.next = next;
         }
     }
 
@@ -80,6 +75,13 @@ class DoubleLink<E> {
         return 0 <= val && val < size;
     }
 
+    private Node<E> node(int index) {
+        Node<E> r = first;
+        for (int i = 0; i < index; i++)
+            r = r.next;
+        return r;
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -93,11 +95,9 @@ class DoubleLink<E> {
 
     class Node<E> {
         E item;
-        Node<E> prev;
         Node<E> next;
 
-        Node(Node<E> prev, E item, Node<E> next) {
-            this.prev = prev;
+        Node(E item, Node<E> next) {
             this.item = item;
             this.next = next;
         }

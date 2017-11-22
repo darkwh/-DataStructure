@@ -1,4 +1,4 @@
-package practice.p3_6;
+package p3.p3_6;
 
 
 public class Demo {

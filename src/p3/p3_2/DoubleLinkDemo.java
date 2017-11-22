@@ -1,32 +1,31 @@
-package practice.p3_2;
+package p3.p3_2;
 
-public class SingleLinkDemo {
+public class DoubleLinkDemo {
 
     public static void main(String[] args) {
-        SingleLink<Integer> table = new SingleLink<>();
+        DoubleLink<Integer> table = new DoubleLink<>();
         table.add(1);
         table.add(2);
         table.add(3);
         table.add(4);
         System.out.println(table.toString());
-        table.swap(0, 1);
+        table.swap(2, 1);
         System.out.println(table.toString());
     }
 }
 
-@SuppressWarnings("ALL")
-class SingleLink<E> {
+class DoubleLink<E> {
 
     private Node<E> first;
     private Node<E> last;
     private int size;
 
-    SingleLink() {
+    DoubleLink() {
     }
 
     void add(E e) {
         Node<E> l = last;
-        Node<E> newNode = new Node<>(e, null);
+        Node<E> newNode = new Node<>(l, e, null);
         if (l == null)
             first = newNode;
         else
@@ -35,29 +34,35 @@ class SingleLink<E> {
         size++;
     }
 
-    @SuppressWarnings("SameParameterValue")
     void swap(int x, int y) {
         checkInput(x, y);
-        Node<E> prevPrev;
-        Node<E> prev;
-        Node<E> next;
-        if (x != 0 && y != 0) {
-            prevPrev = node(x < y ? x - 1 : y - 1);
-            prev = prevPrev.next;
-            next = prev.next;
-        } else {
-            prevPrev = prev = first;
-            next = prev.next;
-        }
+        Node<E> prev = node(x < y ? x : y);
+        Node<E> next = prev.next;
         prev.next = next.next;
-        if (next.next == null) {
-            last = prev;
-        }
+        next.prev = prev.prev;
+        prev.prev = next;
         next.next = prev;
-        if (prevPrev == prev) {
+        if (next.prev != null)
+            next.prev.next = next;
+        else
             first = next;
+        if (prev.next != null)
+            prev.next.prev = prev;
+        else
+            last = prev;
+    }
+
+    private Node<E> node(int index) {
+        if (index < (size >> 1)) {
+            Node<E> r = first;
+            for (int i = 0; i < index; i++)
+                r = r.next;
+            return r;
         } else {
-            prevPrev.next = next;
+            Node<E> r = last;
+            for (int i = size - 1; i > index; i--)
+                r = last.prev;
+            return r;
         }
     }
 
@@ -75,13 +80,6 @@ class SingleLink<E> {
         return 0 <= val && val < size;
     }
 
-    private Node<E> node(int index) {
-        Node<E> r = first;
-        for (int i = 0; i < index; i++)
-            r = r.next;
-        return r;
-    }
-
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -95,9 +93,11 @@ class SingleLink<E> {
 
     class Node<E> {
         E item;
+        Node<E> prev;
         Node<E> next;
 
-        Node(E item, Node<E> next) {
+        Node(Node<E> prev, E item, Node<E> next) {
+            this.prev = prev;
             this.item = item;
             this.next = next;
         }
