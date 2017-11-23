@@ -3,7 +3,7 @@ package p3.p3_2;
 public class DoubleLinkDemo {
 
     public static void main(String[] args) {
-        DoubleLink<Integer> table = new DoubleLink<>();
+        DoubleLinked<Integer> table = new DoubleLinked<>();
         table.add(1);
         table.add(2);
         table.add(3);
@@ -14,13 +14,13 @@ public class DoubleLinkDemo {
     }
 }
 
-class DoubleLink<E> {
+class DoubleLinked<E> {
 
     private Node<E> first;
     private Node<E> last;
     private int size;
 
-    DoubleLink() {
+    DoubleLinked() {
     }
 
     void add(E e) {

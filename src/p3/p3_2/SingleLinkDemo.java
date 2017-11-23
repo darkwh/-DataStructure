@@ -3,7 +3,7 @@ package p3.p3_2;
 public class SingleLinkDemo {
 
     public static void main(String[] args) {
-        SingleLink<Integer> table = new SingleLink<>();
+        SingleLinked<Integer> table = new SingleLinked<>();
         table.add(1);
         table.add(2);
         table.add(3);
@@ -15,13 +15,13 @@ public class SingleLinkDemo {
 }
 
 @SuppressWarnings("ALL")
-class SingleLink<E> {
+class SingleLinked<E> {
 
     private Node<E> first;
     private Node<E> last;
     private int size;
 
-    SingleLink() {
+    SingleLinked() {
     }
 
     void add(E e) {

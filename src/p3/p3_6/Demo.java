@@ -5,7 +5,7 @@ public class Demo {
 
     public static void main(String[] args) {
         /**
-         * 使用循环单链表结构体,运行时间O(N*N),并非最优解,当N很大时耗费时间很长,需要结合数学知识需求最优解法
+         * 使用循环单链表结构体,运行时间O(N*N),并非最优解,当n很大时耗费时间很长,需要结合数学知识需求最优解法
          */
         int m = 20000;
         int n = 100000;
@@ -15,6 +15,9 @@ public class Demo {
         }
         josephus.play(m, n);
 
+        /**
+         * TODO 结合数学知识寻找一个运行时间为O(N)的高效率算法实现
+         */
     }
 }
 
