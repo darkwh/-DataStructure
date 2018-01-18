@@ -1,4 +1,4 @@
-package p3.p3_2;
+package practice.p3.p3_2;
 
 public class SingleLinkDemo {
 
