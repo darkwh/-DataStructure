@@ -1,7 +1,7 @@
 package demo.p3.queue;
 
 /**
- * 队列的实现
+ * 队列的数组实现
  */
 public class QueueDemo1 {
 
